@@ -4,7 +4,7 @@
   padding: 2.5rem;
 }
 
-.post + .post {
+.post+.post {
   margin-top: 2rem;
 }
 
@@ -28,13 +28,13 @@
   color: var(--green-300);
 }
 
-.post > header {
+.post>header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.post > header time {
+.post>header time {
   font-size: 0.875rem;
   color: var(--gray-400);
 }
@@ -57,6 +57,7 @@
   color: var(--gray-400);
   line-height: 1.6;
 }
+
 .commentForm {
   width: 100%;
   margin-top: 1.5rem;
@@ -64,7 +65,7 @@
   border-top: 1px solid var(--gray-600);
 }
 
-.commentForm > strong {
+.commentForm>strong {
   line-height: 1.6;
   color: var(--gray-100);
 }
@@ -105,9 +106,15 @@
   transition: background-color 0.1s;
 }
 
-.commentForm button[type="submit"]:hover {
+.commentForm button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.commentForm button[type="submit"]:not(:disabled):hover {
   background: var(--green-300);
 }
+
 .commentList {
   margin-top: 2rem;
 }

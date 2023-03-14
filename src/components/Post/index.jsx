@@ -8,6 +8,7 @@ import { Comment } from '../Comment';
 import styles from './post.module.css';
 
 export function Post({ author, publishedAt, content }) {
+  
   const [comments, setComments] = useState([
     'Post muito bacana, hein?!'
   ]);
@@ -32,15 +33,19 @@ export function Post({ author, publishedAt, content }) {
 
   function handleNewCommentChange() {
     setNewCommentText(event.target.value);
+    event.target.setCustomValidity('')
   }
 
   function deleteComment(commentToDelete) {
-    const commentsWithouDeletedOne = comments.filter(comment  =>{
-      return comment  !== commentToDelete
+    const commentsWithouDeletedOne = comments.filter(comment => {
+      return comment !== commentToDelete
     })
     setComments(commentsWithouDeletedOne)
   }
-
+  function handleNewCommentIsInvalid() {
+    event.target.setCustomValidity('Ops, campo obrigatório!!')
+  }
+  const isNewCommentEmpty = newCommentText.length === 0
   return (
     <article className={styles.post}>
       <header>
@@ -75,10 +80,12 @@ export function Post({ author, publishedAt, content }) {
           placeholder="Deixe um comentário"
           value={newCommentText}
           onChange={handleNewCommentChange}
+          onInvalid={handleNewCommentIsInvalid}
+          required
         />
 
         <footer>
-          <button type="submit">Publicar</button>
+          <button type="submit" disabled={isNewCommentEmpty}>Publicar</button>
         </footer>
       </form>
 
