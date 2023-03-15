@@ -1,13 +1,14 @@
 import { format, formatDistanceToNow } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
 
 import { Avatar } from '../Avatar';
 import { Comment } from '../Comment';
 
 import styles from './post.module.css';
+import { PostProps } from './types';
 
-export function Post({ author, publishedAt, content }) {
+export function Post({ author, publishedAt, content }:PostProps) {
   
   const [comments, setComments] = useState([
     'Post muito bacana, hein?!'
@@ -24,27 +25,29 @@ export function Post({ author, publishedAt, content }) {
     addSuffix: true
   });
 
-  function handleCrateNewComment() {
+  function handleCrateNewComment(event:FormEvent) {
     event.preventDefault()
 
     setComments([...comments, newCommentText]);
     setNewCommentText('');
   }
 
-  function handleNewCommentChange() {
+  function handleNewCommentChange(event:ChangeEvent<HTMLTextAreaElement>) {
     setNewCommentText(event.target.value);
     event.target.setCustomValidity('')
   }
+  
+  function handleNewCommentIsInvalid(event:InvalidEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity('Ops, campo obrigatório!!')
+  }
 
-  function deleteComment(commentToDelete) {
+  function deleteComment(commentToDelete:string) {
     const commentsWithouDeletedOne = comments.filter(comment => {
       return comment !== commentToDelete
     })
     setComments(commentsWithouDeletedOne)
   }
-  function handleNewCommentIsInvalid() {
-    event.target.setCustomValidity('Ops, campo obrigatório!!')
-  }
+
   const isNewCommentEmpty = newCommentText.length === 0
   return (
     <article className={styles.post}>

@@ -1,7 +1,7 @@
 import { PencilLine } from 'phosphor-react'
 import { Avatar } from '../Avatar';
 
-import styles from './sidebar.module.css';
+import styles from './Sidebar.module.css';
 
 export function Sidebar() {
   return (
