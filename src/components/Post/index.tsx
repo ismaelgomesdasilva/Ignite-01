@@ -5,7 +5,7 @@ import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
 import { Avatar } from '../Avatar';
 import { Comment } from '../Comment';
 
-import styles from './Post.module.css';
+import styles from './post.module.css';
 
 import {PostProps} from './types'
 
