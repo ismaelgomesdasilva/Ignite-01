@@ -1,5 +1,4 @@
-
-export interface CommentProps{
-  content: string,
-  onDeleteComment: (comment: string) => void
+export interface CommentProps {
+  content: string;
+  onDeleteComment: (comment: string) => void;
 }

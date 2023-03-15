@@ -1,5 +1,5 @@
-export interface AvatarProps {
-  hasBorder?: boolean,
-  src: string,
-  alt?: string,
+import { ImgHTMLAttributes } from "react";
+
+export interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
+  hasBorder?: boolean;
 }

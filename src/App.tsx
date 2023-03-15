@@ -2,8 +2,10 @@ import { Post } from './components/Post';
 import { Sidebar } from './components/Siderbar';
 import './global.css';
 import styles from './app.module.css'
+import { Header } from './components/Header';
+import { PostType } from './components/Post/types';
 
-const posts = [
+const posts:PostType[] = [
   {
     id: 1,
     author: {
@@ -37,22 +39,21 @@ const posts = [
 export default function App() {
   return (
     <div>
+    <Header />
 
-      <div className={styles.wrapper}>
-        <Sidebar />
-        <main>
-          {posts.map(post => {
-            return (
-              <Post
+    <div className={styles.wrapper}>
+      <Sidebar />
+      <main>
+        {posts.map(post => {
+          return (
+            <Post
               key={post.id}
-                author={post.author}
-                content={post.content}
-                publishedAt={post.publishedAt}
-              />
-            )
-          })}
-        </main>
-      </div>
+              post={post}
+            />
+          )
+        })}
+      </main>
     </div>
+  </div>
   )
 }

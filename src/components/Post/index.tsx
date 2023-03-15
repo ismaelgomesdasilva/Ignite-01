@@ -5,68 +5,71 @@ import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
 import { Avatar } from '../Avatar';
 import { Comment } from '../Comment';
 
-import styles from './post.module.css';
-import { PostProps } from './types';
+import styles from './Post.module.css';
 
-export function Post({ author, publishedAt, content }:PostProps) {
-  
+import {PostProps} from './types'
+
+
+export function Post({ post }: PostProps) {
   const [comments, setComments] = useState([
     'Post muito bacana, hein?!'
   ]);
 
   const [newCommentText, setNewCommentText] = useState('');
 
-  const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+  const publishedDateFormatted = format(post.publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
     locale: ptBR,
   });
 
-  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+  const publishedDateRelativeToNow = formatDistanceToNow(post.publishedAt, {
     locale: ptBR,
     addSuffix: true
   });
 
-  function handleCrateNewComment(event:FormEvent) {
+  function handleCrateNewComment(event: FormEvent) {
     event.preventDefault()
 
     setComments([...comments, newCommentText]);
     setNewCommentText('');
   }
 
-  function handleNewCommentChange(event:ChangeEvent<HTMLTextAreaElement>) {
+  function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity('');
     setNewCommentText(event.target.value);
-    event.target.setCustomValidity('')
-  }
-  
-  function handleNewCommentIsInvalid(event:InvalidEvent<HTMLTextAreaElement>) {
-    event.target.setCustomValidity('Ops, campo obrigatório!!')
   }
 
-  function deleteComment(commentToDelete:string) {
-    const commentsWithouDeletedOne = comments.filter(comment => {
-      return comment !== commentToDelete
+  function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity('Esse campo é obrigatório!');
+  }
+
+  function deleteComment(commentToDelete: string) {
+    const commentsWithoutDeletedOne = comments.filter(comment => {
+      return comment !== commentToDelete;
     })
-    setComments(commentsWithouDeletedOne)
+
+    setComments(commentsWithoutDeletedOne);
   }
 
-  const isNewCommentEmpty = newCommentText.length === 0
+  const isNewCommentEmpty = newCommentText.length === 0;
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src={author.avatarUrl} />
+          <Avatar src={post.author.avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>{author.name}</strong>
-            <span>{author.role}</span>
+            <strong>{post.author.name}</strong>
+            <span>{post.author.role}</span>
           </div>
         </div>
 
-        <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
+        <time title={publishedDateFormatted} dateTime={post.publishedAt.toISOString()}>
           {publishedDateRelativeToNow}
         </time>
       </header>
 
       <div className={styles.content}>
-        {content.map(line => {
+        {post.content.map(line => {
           if (line.type === 'paragraph') {
             return <p key={line.content}>{line.content}</p>;
           } else if (line.type === 'link') {
@@ -83,12 +86,14 @@ export function Post({ author, publishedAt, content }:PostProps) {
           placeholder="Deixe um comentário"
           value={newCommentText}
           onChange={handleNewCommentChange}
-          onInvalid={handleNewCommentIsInvalid}
+          onInvalid={handleNewCommentInvalid}
           required
         />
 
         <footer>
-          <button type="submit" disabled={isNewCommentEmpty}>Publicar</button>
+          <button type="submit" disabled={isNewCommentEmpty}>
+            Publicar
+          </button>
         </footer>
       </form>
 
